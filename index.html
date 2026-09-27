@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<title>Кагаботик: Paint-хищник</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+  body { margin: 0; font: 14px/1.4 system-ui, sans-serif; background: #2b2f36; color: #eee; display: flex; height: 100vh; }
+  #wrap { flex: 1; display: flex; align-items: center; justify-content: center; min-width: 0; }
+  #stage { position: relative; aspect-ratio: 1000/640; width: min(96%, calc((100vh - 20px) * 1.5625)); background: #fff; box-shadow: 0 8px 30px rgba(0,0,0,.5); border-radius: 6px; overflow: hidden; }
+  canvas { position: absolute; inset: 0; width: 100%; height: 100%; touch-action: none; }
+  #fx { pointer-events: none; }
+  #panel { width: 260px; padding: 12px; overflow: auto; background: #23262c; }
+  h1 { font-size: 16px; margin: 0 0 8px; }
+  .grp { margin-bottom: 12px; }
+  .grp > b { display: block; font-size: 11px; color: #9aa4b2; margin-bottom: 5px; text-transform: uppercase; letter-spacing: .06em; }
+  button { cursor: pointer; border: 1px solid #444; background: #31363e; color: #eee; border-radius: 6px; padding: 6px 9px; margin: 2px; font-size: 13px; }
+  button.on { background: #4a5aef; border-color: #6a7aff; }
+  .sw { width: 25px; height: 25px; border-radius: 5px; border: 2px solid rgba(0,0,0,.35); display: inline-block; margin: 2px; cursor: pointer; vertical-align: middle; }
+  .sw.on { outline: 2px solid #fff; }
+  input[type=range] { width: 100%; }
+  #metrics { font-size: 13px; background: #1b1e23; border-radius: 6px; padding: 8px; }
+  #hint { font-size: 12px; color: #8b93a1; }
+  @media (max-width: 780px) { body { flex-direction: column; } #panel { width: auto; max-height: 42vh; } }
+</style>
+</head>
+<body>
+<div id="wrap"><div id="stage">
+  <canvas id="paper"></canvas><canvas id="paint"></canvas><canvas id="fx"></canvas>
+</div></div>
+<div id="panel">
+  <h1>🎨 Кагаботик: Paint-хищник</h1>
+  <div class="grp"><b>Инструменты</b>
+    <button data-tool="brush" class="on">Кисть</button><button data-tool="marker">Маркер</button><button data-tool="spray">Аэрозоль</button><button data-tool="fill">Заливка</button><button data-tool="eraser">Ластик</button>
+  </div>
+  <div class="grp"><b>Цвет — чем насыщеннее, тем вкуснее</b><div id="colors"></div>
+    <div style="display:flex;gap:10px">
+      <label style="flex:1">Размер<br><input id="size" type="range" min="2" max="40" value="8"></label>
+      <label style="flex:1">Непрозрачность<br><input id="alpha" type="range" min="10" max="100" value="90"></label>
+    </div>
+  </div>
+  <div class="grp"><b>Действия</b>
+    <button id="undo" title="Ctrl+Z">↩ Отменить</button>
+    <button id="bait" title="B">🍬 Приманка (<span id="baitN">3</span>)</button>
+    <button id="sleep" title="S">😴 Усыпить</button>
+    <button id="sound">🔊 Звук</button>
+    <button id="save">💾 Сохранить PNG</button>
+  </div>
+  <div class="grp"><b>Метрики</b><div id="metrics">…</div></div>
+  <p id="hint">Насыщенный цвет — еда. <b>Графит, чёрный и белый — не еда:</b> шедевр в графите переживёт хищника. Широкие мазки — платформы, ступенчатая лесенка — путь наверх. Цель слишком высоко? Он покажет линейку «нужно / хватает». Сытый Кагаботик спит — это окно для главного шедевра. Ластик его пугает. Съеденное Undo не вернёт — он уже съел.</p>
+</div>
+<script src="js/config.js"></script>
+<script src="js/sim.js"></script>
+<script src="js/food.js"></script>
+<script src="js/kagabotik.js"></script>
+<script src="js/main.js"></script>
+</body>
+</html>
